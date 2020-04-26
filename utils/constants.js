@@ -7,7 +7,7 @@ exports.passportSecret = "SECRET!@#"
 exports.generalApis = ['/login', '/signup']
 
 exports.permissions = {
-    USER: [],
+    USER: ['/available-rooms', '/available-tables', '/reserve-table', '/avail-table', '/reserve-meeting', '/end-meeting'],
     STAFF: ['/check-in', '/check-out'],
     ADMIN: ['/check-in', '/check-out']
 }

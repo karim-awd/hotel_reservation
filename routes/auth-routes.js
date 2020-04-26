@@ -8,7 +8,7 @@ router.post('/signup', (req, res) => {
     try {
         const user = req.body
         user.password = bcrypt.hashSync(user.password, 10)
-        new userModel(user).save().then(user => res.json(user)).catch(({ message }) => res.status(400).send(message))
+        new userModel(user).save().then(user => res.sendStatus(200)).catch(({ message }) => res.status(400).send(message))
     } catch ({ message }) {
         res.status(500).send(message)
     }
