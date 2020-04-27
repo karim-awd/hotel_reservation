@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const strategy = require('./utils/passport-setup')
 const cors = require('cors')
-// const rooms = require('./utils/roomsScript')
+// const meals = require('./utils/mealsScript')
 
 const app = express()
 
@@ -24,7 +24,7 @@ passport.use(strategy) // JWT strategy starts here!
 app.use(authRoutes)
 app.use(userRoutes)
 
-// rooms.insertRooms()
+// meals.insertRooms()
 
 app.listen(3000, () => console.log('listening  on port 3000'))
 

@@ -5,6 +5,7 @@ const roomModel = require('../models/rooms')
 const reservationModel = require('../models/reservation')
 const tableModel = require('../models/tables')
 const meetingModel = require('../models/meetingRooms')
+const mealsModel = require('../models/meals')
 
 router.post('/reserve-room', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
@@ -89,10 +90,10 @@ router.post('/avail-table', passport.authenticate('jwt', { session: false }), au
 
 
 
-router.post('/available-tables', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+router.post('/all-orders', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
-        tableModel.find({ reserved: false }, { _id: 0, __v: 0 }).then(tables => {
-            return res.status(200).json(tables)
+        mealsModel.find({}, { _id: 0, __v: 0 }).then(meals => {
+            return res.status(200).json(meals)
         })
     } catch ({ message }) {
         res.status(500).send(message)
