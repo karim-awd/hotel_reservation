@@ -92,13 +92,30 @@ router.post('/avail-table', passport.authenticate('jwt', { session: false }), au
 
 router.post('/all-orders', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
-        mealsModel.find({}, { _id: 0, __v: 0 }).then(meals => {
+        mealsModel.find({ status: "reserved" }, { __v: 0 }).then(meals => {
             return res.status(200).json(meals)
         })
     } catch ({ message }) {
         res.status(500).send(message)
     }
 })
+
+router.post('/modify-order-status', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+    try {
+        const { _id } = req.body
+        mealsModel.findOne({ _id: _id }).then(meal => {
+            if (!meal) return res.status(404).send('Meal not Found')
+            if (meal.status === "delivered" ) return status(400).send("Meal is already in devlivered state")
+            mealsModel.updateOne({ _id: _id }, { status: "reserved" }).then(({ nModified }) => {
+                return nModified > 0 ? res.status(200).send("Meal State is Updated") : res.sendStatus(500)
+            })
+        })
+    } catch ({ message }) {
+        res.status(500).send(message)
+    }
+})
+
+
 
 router.post('/reserve-meeting', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
