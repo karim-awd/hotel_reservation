@@ -169,7 +169,7 @@ router.post('/modify-reservation-status', passport.authenticate('jwt', { session
 router.post('/modify-order-status', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
         const { _id } = req.body
-        mealsModel.deleteOne({_id: _id}).then(res.status(200)).catch(({ message }) => res.status(400).send(message))
+        mealsModel.deleteOne({_id: _id}).then(res.sendStatus(200)).catch(({ message }) => res.status(400).send(message))
     } catch ({ message }) {
         res.status(505).send(message)
     }
