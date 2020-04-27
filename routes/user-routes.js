@@ -100,23 +100,6 @@ router.post('/all-orders', passport.authenticate('jwt', { session: false }), aut
     }
 })
 
-router.post('/modify-order-status', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
-    try {
-        const { _id } = req.body
-        mealsModel.findOne({ _id: _id }).then(meal => {
-            if (!meal) return res.status(404).send('Meal not Found')
-            if (meal.status === "delivered" ) return status(400).send("Meal is already in devlivered state")
-            mealsModel.updateOne({ _id: _id }, { status: "reserved" }).then(({ nModified }) => {
-                return nModified > 0 ? res.status(200).send("Meal State is Updated") : res.sendStatus(500)
-            })
-        })
-    } catch ({ message }) {
-        res.status(500).send(message)
-    }
-})
-
-
-
 router.post('/reserve-meeting', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
         let { roomNumber, event } = req.body
@@ -180,6 +163,15 @@ router.post('/modify-reservation-status', passport.authenticate('jwt', { session
         })
     } catch ({ message }) {
         res.status(500).send(message)
+    }
+})
+
+router.post('/modify-order-status', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+    try {
+        const { _id } = req.body
+        mealsModel.deleteOne({_id: _id}).then(res.status(200)).catch(({ message }) => res.status(400).send(message))
+    } catch ({ message }) {
+        res.status(505).send(message)
     }
 })
 
