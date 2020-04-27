@@ -17,11 +17,13 @@ router.post('/signup', (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { mobile, password } = req.body
+        console.log(mobile, password)
         const user = await userModel.findOne({ mobile })
+        console.log(user)
         if (!user) return res.status(404).send("User not found")
         if (bcrypt.compareSync(password, user.password)) {
             let token = jwt.sign({ id: { mobile: user.mobile } }, passportSecret)
-            res.status(200).json({ name: user.name, token })
+            res.status(200).json({ name: user.name, role:user.role, token })
         } else {
             res.status(401).send("Wrong username or password")
         }

@@ -2,8 +2,10 @@ const { Schema, model } = require('mongoose')
 
 const reservationSchema = new Schema({
     user: { type: String, required: true },
-    room: { type: String, required: true },
-    time: { type: Date, default: Date.now() },
+    roomNumber: { type: String, required: true },
+    fromDate: { type: Date, default: Date.now() },
+    toDate: { type: Date},
+    checkedIn: { type: Boolean, default: false },
     staff: { type: String, required: true }
 })
 
