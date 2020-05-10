@@ -9,8 +9,8 @@ const mealsModel = require('../models/meals')
 
 router.post('/reserve-room', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
-        const reservation = req.body
-        roomModel.findOne({ roomNumber: reservation.roomNumber }).then(room => {
+            const reservation = req.body
+            roomModel.findOne({ roomNumber: reservation.roomNumber }).then(room => {
             if (!room) return res.status(404).send('Room not Found')
             if (room.reserved) return status(400).send("Room is reserved")
             roomModel.updateOne({ roomNumber: reservation.roomNumber }, { reserved: true }).then(({ nModified }) => {
@@ -144,6 +144,17 @@ router.post('/all-meeting-rooms', passport.authenticate('jwt', { session: false 
 router.post('/all-reservations', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
         reservationModel.find({}, { __v: 0 }).then(reservations => {
+            return res.status(200).json(reservations)
+        })
+    } catch ({ message }) {
+        res.status(500).send(message)
+    }
+})
+
+router.post('/all-user-reservations', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+    try {
+        const { mobile } = req.body
+        reservationModel.find({ mobile: mobile }, { __v: 0 }).then(reservations => {
             return res.status(200).json(reservations)
         })
     } catch ({ message }) {
