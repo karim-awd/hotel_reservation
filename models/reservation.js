@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const reservationSchema = new Schema({
-    mobile: { type: String, required: true, unique: true },
+    mobile: { type: String, required: true},
     roomNumber: { type: String, required: true },
     fromDate: { type: Date, default: Date.now() },
     toDate: { type: Date},

@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
         if (!user) return res.status(404).send("User not found")
         if (bcrypt.compareSync(password, user.password)) {
             let token = jwt.sign({ id: { mobile: user.mobile } }, passportSecret)
-            res.status(200).json({ name: user.name, role:user.role, token })
+            res.status(200).json({ name: user.name, mobile: user.mobile, role:user.role, token})
         } else {
             res.status(401).send("Wrong username or password")
         }
