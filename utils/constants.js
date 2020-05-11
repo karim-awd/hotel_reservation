@@ -9,5 +9,5 @@ exports.generalApis = ['/login', '/signup']
 exports.permissions = {
     USER: ['/all-user-reservations', '/reserve-room', '/check-out', '/all-rooms', '/all-orders'],
     STAFF: ['/all-user-reservations','/modify-order-status', '/available-rooms', '/reserve-room', '/check-out', '/all-rooms', '/all-orders','/all-meeting-rooms', '/all-reservations', '/modify-reservation-status', '/reserve-meeting', '/end-meeting'],
-    ADMIN: ['/all-user-reservations', '/modify-order-status', '/available-rooms', '/reserve-room', '/check-out', '/all-rooms', '/all-orders','/all-meeting-rooms', '/all-reservations', '/modify-reservation-status', '/reserve-meeting', '/end-meeting']
+    ADMIN: ['/delete-staff', '/upgrade-to-staff', '/all-user-reservations', '/modify-order-status', '/available-rooms', '/reserve-room', '/check-out', '/all-rooms', '/all-orders','/all-meeting-rooms', '/all-reservations', '/modify-reservation-status', '/reserve-meeting', '/end-meeting']
 }

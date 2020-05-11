@@ -6,6 +6,31 @@ const reservationModel = require('../models/reservation')
 const tableModel = require('../models/tables')
 const meetingModel = require('../models/meetingRooms')
 const mealsModel = require('../models/meals')
+const userModel = require('../models/user')
+
+router.post('/upgrade-to-staff', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+    try {
+            const {mobile} = req.body
+            userModel.findOne({ mobile: mobile}).then(user => {
+            if (!user) return res.status(404).send('User not Found')
+            if (user.role[0] === "STAFF") return status(400).send("Already a staff member")
+            userModel.updateOne({ mobile: mobile}, { role: "STAFF" }).then(({ nModified }) => {
+                return nModified > 0 ? res.status(200).send("Staff member added!") : res.sendStatus(500)
+            })
+        })
+    } catch ({ message }) {
+        res.status(500).send(message)
+    }
+})
+
+router.post('/delete-staff', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
+    try {
+        const {mobile} = req.body
+        userModel.deleteOne({mobile: mobile}).then(res.status(200)).catch(({ message }) => res.status(400).send(message))
+    } catch ({ message }) {
+        res.status(500).send(message)
+    }
+})
 
 router.post('/reserve-room', passport.authenticate('jwt', { session: false }), authMiddleware, async (req, res) => {
     try {
