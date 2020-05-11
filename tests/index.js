@@ -184,3 +184,15 @@ describe('/POST all-reservations', () => {
           })
     })
 })
+
+describe('/POST /all-user-reservations', () => {
+    it('getting all user reservations', async () => {
+        await chai.request(server)
+          .post('/all-user-reservations')
+          .set('Authorization', token)
+          .send()
+          .then((res, body) => {
+              res.should.have.status(200)
+          })
+    })
+})
